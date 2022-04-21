@@ -75,15 +75,12 @@ export class APIClient {
   ): Promise<any> {
     try {
       let nextUri = null;
-      let counter = 0;
       do {
         const response = await this.request(nextUri || uri, method);
-        nextUri = !!response['@pagination'].next
+        nextUri = response['@pagination'].next
           ? this.withBaseUri(response['@pagination']?.next['@href'])
           : response['@pagination']?.next;
         for (const item of response[iterateeKey]) await iteratee(item);
-
-        counter += 1;
       } while (nextUri);
     } catch (err) {
       throw new IntegrationProviderAPIError({
