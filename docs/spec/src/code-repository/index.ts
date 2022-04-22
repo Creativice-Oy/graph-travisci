@@ -18,7 +18,7 @@ export const codeRepoSpec: StepSpec<IntegrationConfig>[] = [
     ],
     relationships: [
       {
-        _type: 'travisci_user_create_code_repo',
+        _type: 'travisci_user_created_coderepo',
         sourceType: 'travisci_user',
         _class: RelationshipClass.CREATED,
         targetType: 'travisci_coderepo',

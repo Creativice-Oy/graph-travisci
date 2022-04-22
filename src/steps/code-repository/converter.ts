@@ -16,8 +16,8 @@ export function createCodeRepoEntity(coderepo: TravisCIRepository): Entity {
       source: coderepo,
       assign: {
         _key: getCodeRepoKey(coderepo.id),
-        _type: Entities.USER._type,
-        _class: Entities.USER._class,
+        _type: Entities.CODEREPO._type,
+        _class: Entities.CODEREPO._class,
         id: coderepo.id.toString(),
         public: !coderepo.private,
       },

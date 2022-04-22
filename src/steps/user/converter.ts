@@ -15,8 +15,8 @@ export function createUserEntity(user: TravisCIUser): Entity {
       source: user,
       assign: {
         _key: getUserKey(user.id),
-        _type: Entities.CODEREPO._type,
-        _class: Entities.CODEREPO._class,
+        _type: Entities.USER._type,
+        _class: Entities.USER._class,
         id: user.id.toString(),
         username: user.login,
         email: user.email,

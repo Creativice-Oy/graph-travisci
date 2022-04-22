@@ -14,30 +14,11 @@ export const accountSpec: StepSpec<IntegrationConfig>[] = [
         resourceName: 'Account',
         _type: 'travisci_account',
         _class: ['Account'],
-        schema: {
-          properties: {
-            id: { type: 'string' },
-            email: { type: 'string' },
-            hostname: { type: 'string' },
-            name: { type: 'string' },
-          },
-          required: ['id', 'email', 'hostname', 'name'],
-        },
       },
       {
         resourceName: 'User',
         _type: 'travisci_user',
         _class: ['User'],
-        schema: {
-          properties: {
-            id: { type: 'string' },
-            username: { type: 'string' },
-            email: { type: 'string' },
-            active: { type: 'boolean' },
-            name: { type: 'string' },
-          },
-          required: ['id', 'username', 'email', 'active', 'name'],
-        },
       },
     ],
     relationships: [

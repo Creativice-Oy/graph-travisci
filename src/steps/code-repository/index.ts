@@ -47,7 +47,7 @@ export const codeRepoSteps: IntegrationStep<IntegrationConfig>[] = [
     id: Steps.BUILD_USER_AND_CODEREPOS_RELATIONSHIPS,
     name: 'Build User And CodeRepos Relationship',
     entities: [Entities.CODEREPO],
-    relationships: [Relationships.USER_CREATED_CODE_REPO],
+    relationships: [Relationships.USER_CREATED_CODEREPO],
     dependsOn: [Steps.ACCOUNT],
     executionHandler: buildUserAndCodeReposRelationship,
   },
