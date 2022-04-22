@@ -22,7 +22,7 @@ export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
 export class APIClient {
   constructor(readonly config: IntegrationConfig) {}
 
-  private perPage = 1;
+  private perPage = 100;
   private baseUri = `https://${this.config.hostname}`;
   private withBaseUri = (path: string) => `${this.baseUri}${path}`;
 
