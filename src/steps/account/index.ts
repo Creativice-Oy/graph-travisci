@@ -14,8 +14,7 @@ import {
   Entities,
   Relationships,
 } from '../constants';
-import { createUserEntity } from '../user/converter';
-import { createAccountEntity } from './converter';
+import { createAccountEntity, createUserEntity } from './converter';
 
 export async function fetchAccount({
   instance,

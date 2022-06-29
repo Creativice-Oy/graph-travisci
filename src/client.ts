@@ -1,6 +1,5 @@
 import fetch, { Response } from 'node-fetch';
 import { retry } from '@lifeomic/attempt';
-
 import {
   IntegrationProviderAPIError,
   IntegrationProviderAuthenticationError,
@@ -10,21 +9,20 @@ import { IntegrationConfig } from './config';
 import { TravisCIRepository } from './types';
 
 export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
-
-/**
- * An APIClient maintains authentication state and provides an interface to
- * third party data APIs.
- *
- * It is recommended that integrations wrap provider data APIs to provide a
- * place to handle error responses and implement common patterns for iterating
- * resources.
- */
 export class APIClient {
   constructor(readonly config: IntegrationConfig) {}
 
   private perPage = 100;
   private baseUri = `https://${this.config.hostname}`;
   private withBaseUri = (path: string) => `${this.baseUri}${path}`;
+
+  private checkStatus = (response: Response) => {
+    if (response.ok) {
+      return response;
+    } else {
+      throw new IntegrationProviderAPIError(response);
+    }
+  };
 
   private async request(
     uri: string,
@@ -42,7 +40,9 @@ export class APIClient {
       // Handle rate-limiting
       const response = await retry(
         async () => {
-          return await fetch(uri, options);
+          const res: Response = await fetch(uri, options);
+          this.checkStatus(res);
+          return res;
         },
         {
           delay: 5000,
@@ -80,7 +80,9 @@ export class APIClient {
         nextUri = response['@pagination'].next
           ? this.withBaseUri(response['@pagination']?.next['@href'])
           : response['@pagination']?.next;
-        for (const item of response[iterateeKey]) await iteratee(item);
+        for (const item of response[iterateeKey]) {
+          await iteratee(item);
+        }
       } while (nextUri);
     } catch (err) {
       throw new IntegrationProviderAPIError({
@@ -95,9 +97,8 @@ export class APIClient {
   /**
    * Verify if the provided credentials are working.
    */
-
   public async verifyAuthentication(): Promise<void> {
-    const uri = this.withBaseUri('user');
+    const uri = this.withBaseUri('/user');
     try {
       await this.request(uri);
     } catch (err) {
@@ -114,7 +115,7 @@ export class APIClient {
    * Fetch the user resource in the provider.
    */
   public async fetchUser(): Promise<Response> {
-    return await this.request(this.withBaseUri(`/user`), 'GET');
+    return this.request(this.withBaseUri(`/user`), 'GET');
   }
 
   /**

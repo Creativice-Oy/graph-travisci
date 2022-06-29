@@ -1,4 +1,4 @@
-# Integration with JupiterOne
+# TravisCI Integration with JupiterOne
 
 ## Travis CI + JupiterOne Integration Benefits
 
@@ -98,6 +98,7 @@ The following relationships are created:
 | --------------------- | --------------------- | --------------------- |
 | `travisci_account`    | **IS**                | `travisci_user`       |
 | `travisci_user`       | **CREATED**           | `travisci_coderepo`   |
+| `travisci_user`       | **USES**              | `travisci_coderepo`   |
 
 <!--
 ********************************************************************************

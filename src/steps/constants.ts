@@ -8,6 +8,7 @@ export const ACCOUNT_ENTITY_KEY = 'entity:account';
 
 export const Steps = {
   ACCOUNT: 'fetch-account',
+  CODEREPOS: 'fetch-coderepos',
   BUILD_USER_AND_CODEREPOS_RELATIONSHIPS:
     'build-user-and-code-repos-relationships',
 };
@@ -34,7 +35,7 @@ export const Entities: Record<
 };
 
 export const Relationships: Record<
-  'ACCOUNT_IS_USER' | 'USER_CREATED_CODEREPO',
+  'ACCOUNT_IS_USER' | 'USER_CREATED_CODEREPO' | 'USER_USES_CODEREPO',
   StepRelationshipMetadata
 > = {
   ACCOUNT_IS_USER: {
@@ -47,6 +48,12 @@ export const Relationships: Record<
     _type: 'travisci_user_created_coderepo',
     sourceType: Entities.USER._type,
     _class: RelationshipClass.CREATED,
+    targetType: Entities.CODEREPO._type,
+  },
+  USER_USES_CODEREPO: {
+    _type: 'travisci_user_uses_coderepo',
+    sourceType: Entities.USER._type,
+    _class: RelationshipClass.USES,
     targetType: Entities.CODEREPO._type,
   },
 };
